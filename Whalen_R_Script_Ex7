@@ -1,0 +1,40 @@
+setwd("~/Desktop/Biocompting/Biocomp-Fall2018-181012-Exercise7")
+rm(list=ls()) #clears global environment
+iris=read.csv(file = "iris.csv", stringsAsFactors = F) #strings as factors loads everything as characters, not as factors
+
+#function to return odd rows
+iris[seq(1, nrow(iris), 2), 1:4]
+odd_rows<-function(data_frame){
+  oddrows=data_frame[seq(1, nrow(data_frame), 2), ] #creates a data frame of a sequence of the object iris that starts at the first row and goes until the last row using nrows(iris), and counts by 2 giving the odd numbered obvservations
+  
+  return(oddrows)
+}
+odd_rows(iris)
+
+
+
+#function to return number of observations
+num_obs<-function(species){
+  speciesobs=iris[iris$Species==species, ] #indexes iris with only the rows that contain the species specified
+  numobs=nrow(speciesobs) #the number of observations in the object that is iris indexed by species 
+  return(numobs)
+}
+num_obs("setosa") #need to use quotes with the species becaue they are characters
+
+#function to return dataframe with sepal width greater than value
+sepal_width<-function(width){
+  obs=iris[iris$Sepal.Width>width, ] #indexes the object iris based on whether the value in the sepal width column is greater than the width specified
+  return(obs)
+}
+sepal_width(3.5)
+
+#function to write species data to a csv with species name as file name
+species_file<-function(species){
+  species_obs=iris[iris$Species == species, ]	 #indexes the object iris based on if the value of the Species column is the species specified
+  csv=".csv"	 #creates an object that contains the extension of the file we want
+  with_csv=paste(species, csv, sep = "")	 #creates an object that is the file name (the name of the species specified) pasted together with the file extension object
+  species_file=write.csv(species_obs, file = with_csv, row.names = FALSE )	 #writes a file with the object that is name of the file pasted with the extension, there are no row names
+  return(with_csv)	 #returns the name of the file
+}
+
+species_file("virginica") #need to use quotes with the species becaue they are characters
